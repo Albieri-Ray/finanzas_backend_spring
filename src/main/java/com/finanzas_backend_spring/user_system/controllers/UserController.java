@@ -6,8 +6,12 @@ import com.finanzas_backend_spring.user_system.resources.UserResource;
 import com.finanzas_backend_spring.user_system.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/")
@@ -20,6 +24,41 @@ public class UserController {
     public UserController(UserService userService, ModelMapper mapper) {
         this.userService = userService;
         this.mapper = mapper;
+    }
+
+    @GetMapping("users/")
+    public ResponseEntity<List<UserResource>> getAllUsers(){
+        try
+        {
+            List<User> users = userService.getAllUsers();
+            if (users.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            List<UserResource> userResources = users.stream().map(this::convertToResource).collect(Collectors.toList());
+            return new ResponseEntity<>(userResources, HttpStatus.OK);
+        }catch (Exception e){
+         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("users/{id}/")
+    public ResponseEntity<UserResource> getUserById(@PathVariable Long id){
+        try {
+             User user = userService.getUserById(id);
+             return new ResponseEntity<>(convertToResource(user),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("users/{id}/")
+    public ResponseEntity<UserResource> UpdateUserById (@PathVariable Long id,@RequestBody SaveUserResource saveUserResource){
+        try{
+            User user = userService.update(id,convertToEntity(saveUserResource));
+            return new ResponseEntity<>(convertToResource(user),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public UserResource convertToResource(User entity) {

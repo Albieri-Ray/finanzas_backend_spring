@@ -40,4 +40,9 @@ public class UserServiceImpl implements UserService {
         existed.setPassword(user.getPassword());
         return userRepository.save(existed);
     }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
