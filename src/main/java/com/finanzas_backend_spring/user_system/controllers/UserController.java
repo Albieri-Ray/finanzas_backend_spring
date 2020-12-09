@@ -43,22 +43,15 @@ public class UserController {
 
     @GetMapping("users/{id}/")
     public ResponseEntity<UserResource> getUserById(@PathVariable Long id){
-        try {
-             User user = userService.getUserById(id);
-             return new ResponseEntity<>(convertToResource(user),HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        User user = userService.getUserById(id);
+        return new ResponseEntity<>(convertToResource(user),HttpStatus.OK);
     }
 
     @PutMapping("users/{id}/")
     public ResponseEntity<UserResource> UpdateUserById (@PathVariable Long id,@RequestBody SaveUserResource saveUserResource){
-        try{
-            User user = userService.update(id,convertToEntity(saveUserResource));
-            return new ResponseEntity<>(convertToResource(user),HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        User user = userService.update(id,convertToEntity(saveUserResource));
+        return new ResponseEntity<>(convertToResource(user),HttpStatus.OK);
     }
 
     public UserResource convertToResource(User entity) {
