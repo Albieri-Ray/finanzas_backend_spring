@@ -5,6 +5,7 @@ import com.finanzas_backend_spring.user_system.repositories.UserRepository;
 import com.finanzas_backend_spring.user_system.services.NotFoundException;
 import com.finanzas_backend_spring.user_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
+        this.encoder = encoder;
     }
 
     @Override
@@ -29,6 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
