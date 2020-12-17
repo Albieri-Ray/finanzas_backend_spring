@@ -5,6 +5,7 @@ import com.finanzas_backend_spring.user_system.repositories.ClientRepository;
 import com.finanzas_backend_spring.user_system.repositories.UserRepository;
 import com.finanzas_backend_spring.user_system.services.ClientService;
 import com.finanzas_backend_spring.user_system.services.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final UserRepository userRepository;
 
+    @Autowired
     public ClientServiceImpl(ClientRepository clientRepository, UserRepository userRepository) {
         this.clientRepository = clientRepository;
         this.userRepository = userRepository;
@@ -36,6 +38,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client save(Client client, Long userId) {
+        client.setActive(true);
         client.setUser(userRepository.findById(userId).orElseThrow(()-> new NotFoundException("user","id",userId)));
         return clientRepository.save(client);
     }
@@ -47,7 +50,6 @@ public class ClientServiceImpl implements ClientService {
         existed.setLastName(client.getLastName());
         existed.setDni(client.getDni());
         existed.setPhone(client.getPhone());
-        existed.setActive(client.getActive());
         return clientRepository.save(existed);
     }
 }
