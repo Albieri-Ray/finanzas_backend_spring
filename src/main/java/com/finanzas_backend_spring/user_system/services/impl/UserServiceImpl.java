@@ -2,7 +2,7 @@ package com.finanzas_backend_spring.user_system.services.impl;
 
 import com.finanzas_backend_spring.user_system.models.User;
 import com.finanzas_backend_spring.user_system.repositories.UserRepository;
-import com.finanzas_backend_spring.user_system.services.NotFoundException;
+import com.finanzas_backend_spring.user_system.util.NotFoundException;
 import com.finanzas_backend_spring.user_system.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

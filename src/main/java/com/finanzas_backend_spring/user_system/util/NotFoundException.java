@@ -1,4 +1,4 @@
-package com.finanzas_backend_spring.user_system.services;
+package com.finanzas_backend_spring.user_system.util;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

@@ -9,6 +9,9 @@ import com.finanzas_backend_spring.user_system.services.ClientService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,30 +34,32 @@ public class ClientController {
     }
 
     @GetMapping("clients/")
-    public ResponseEntity<List<ClientResource>> getAllClients(){
+    public ResponseEntity<Page<ClientResource>> getAllClients(Pageable pageable){
         try
         {
-            List<Client> clients = clientService.getAllClients();
+            Page<Client> clients = clientService.getAllClients(pageable);
             if(clients.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            List<ClientResource> clientResources = clients.stream().map(this::convertToResource).collect(Collectors.toList());
-            return new ResponseEntity<>(clientResources,HttpStatus.OK);
+            List<ClientResource> clientResources = clients.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
+            Page<ClientResource> resources = new PageImpl<>(clientResources, pageable, clientResources.size());
+            return new ResponseEntity<>(resources,HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("users/{id}/clients/")
-    public ResponseEntity<List<ClientResource>> getAllClientsByUser(@PathVariable Long id){
+    public ResponseEntity<Page<ClientResource>> getAllClientsByUser(@PathVariable Long id,Pageable pageable){
         try
         {
-            List<Client> clients = clientService.getAllClientsByUser(id);
+            Page<Client> clients = clientService.getAllClientsByUser(id, pageable);
             if(clients.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            List<ClientResource> clientResources = clients.stream().map(this::convertToResource).collect(Collectors.toList());
-            return new ResponseEntity<>(clientResources,HttpStatus.OK);
+            List<ClientResource> clientResources = clients.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
+            Page<ClientResource> resources = new PageImpl<>(clientResources, pageable, clientResources.size());
+            return new ResponseEntity<>(resources,HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -76,6 +81,12 @@ public class ClientController {
     public ResponseEntity<ClientResource> UpdateClientById(@PathVariable Long id, @RequestBody SaveClientResource saveClientResource){
         Client client = clientService.update(id,convertToEntity(saveClientResource));
         return new ResponseEntity<>(convertToResource(client), HttpStatus.OK);
+    }
+
+    @GetMapping("clients/{id}/active")
+    public ResponseEntity<ClientResource> changeState(@PathVariable Long id){
+        Client existed = clientService.changeState(id);
+        return new ResponseEntity<>(convertToResource(existed), HttpStatus.OK);
     }
 
     @PostConstruct

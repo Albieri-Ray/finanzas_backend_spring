@@ -4,9 +4,12 @@ import com.finanzas_backend_spring.user_system.models.Client;
 import com.finanzas_backend_spring.user_system.repositories.ClientRepository;
 import com.finanzas_backend_spring.user_system.repositories.UserRepository;
 import com.finanzas_backend_spring.user_system.services.ClientService;
-import com.finanzas_backend_spring.user_system.services.NotFoundException;
+import com.finanzas_backend_spring.user_system.util.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -22,13 +25,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> getAllClients() {
-        return clientRepository.findAll();
+    public Page<Client> getAllClients(Pageable pageable) {
+        return clientRepository.findAll(pageable);
     }
 
     @Override
-    public List<Client> getAllClientsByUser(Long userId) {
-        return clientRepository.findByUserId(userId);
+    public Page<Client> getAllClientsByUser(Long userId, Pageable pageable) {
+        return clientRepository.findByUserId(userId, pageable);
     }
 
     @Override
@@ -51,5 +54,16 @@ public class ClientServiceImpl implements ClientService {
         existed.setDni(client.getDni());
         existed.setPhone(client.getPhone());
         return clientRepository.save(existed);
+    }
+
+    @Override
+    public Client changeState(Long id) {
+        Client client = clientRepository.findById(id).orElseThrow(()-> new NotFoundException("user","id",id));
+        client.setActive(verify(client.getActive()));
+        return clientRepository.save(client);
+    }
+
+    private Boolean verify(Boolean active) {
+        return !active;
     }
 }
