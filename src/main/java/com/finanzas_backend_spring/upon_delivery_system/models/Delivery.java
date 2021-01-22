@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -28,8 +28,7 @@ public class Delivery {
     @Column(name = "price_delivery", precision = 8, scale = 2)
     private BigDecimal priceDelivery;
     @Column(name = "register_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date registerDate;
+    private LocalDate registerDate;
     @Column(name = "frequency", nullable = false)
     private String frequency;
     @Column(name = "home_address", nullable = false)

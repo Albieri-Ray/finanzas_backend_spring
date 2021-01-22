@@ -11,13 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
     private final ClientRepository clientRepository;
     private final LocalDate today = LocalDate.now();
+    //ZoneId defaultZoneId = ZoneId.systemDefault();
     @Autowired
     public DeliveryServiceImpl(DeliveryRepository deliveryRepository, ClientRepository clientRepository) {
         this.deliveryRepository = deliveryRepository;
@@ -41,8 +42,8 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public Delivery save(Delivery delivery, Long clientId) {
-        //Date Fecha = today;
-        //delivery.setRegisterDate(Fecha);
+        //Date date = Date.from(LocalDate.atStartOfDay(defaultZoneId).toInstant());
+        delivery.setRegisterDate(today);
         delivery.setClient(clientRepository.findById(clientId).orElseThrow(()->new NotFoundException("client","id", clientId)));
         return deliveryRepository.save(delivery);
     }
