@@ -31,7 +31,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public Page<Delivery> getAllDeliveryByClient(Long clientId, Pageable pageable) {
+    public Page<Delivery> getAllDeliveriesByClient(Long clientId, Pageable pageable) {
         return deliveryRepository.findByClientId(clientId, pageable);
     }
 

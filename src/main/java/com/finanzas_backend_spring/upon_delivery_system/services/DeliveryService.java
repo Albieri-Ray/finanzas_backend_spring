@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface DeliveryService {
     Page<Delivery> getAllDeliveries (Pageable pageable);
-    Page<Delivery> getAllDeliveryByClient(Long clientId, Pageable pageable);
+    Page<Delivery> getAllDeliveriesByClient(Long clientId, Pageable pageable);
     Delivery getDeliveryById(Long id);
     Delivery save(Delivery delivery, Long clientId);
     Delivery update(Long id, Delivery delivery);
