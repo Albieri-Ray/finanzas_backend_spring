@@ -4,7 +4,10 @@ import com.finanzas_backend_spring.upon_delivery_system.models.Delivery;
 import com.finanzas_backend_spring.upon_delivery_system.resources.DeliveryResource;
 import com.finanzas_backend_spring.upon_delivery_system.resources.SaveDeliveryResource;
 import com.finanzas_backend_spring.upon_delivery_system.services.DeliveryService;
+import com.finanzas_backend_spring.user_system.models.Client;
+import com.finanzas_backend_spring.user_system.resources.ClientResource;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,6 +79,16 @@ public class DeliveryController {
     public ResponseEntity<DeliveryResource> UpdateDeliveryById(@PathVariable Long id, @RequestBody SaveDeliveryResource saveDeliveryResource){
         Delivery delivery = deliveryService.update(id,convertToEntity(saveDeliveryResource));
         return new ResponseEntity<>(convertToResource(delivery), HttpStatus.OK);
+    }
+
+    @PostConstruct
+    public void init(){
+        mapper.addMappings(new PropertyMap<Delivery, DeliveryResource>() {
+            @Override
+            protected void configure() {
+                map().setClientName(source.getClient().getFirstName());
+            }
+        });
     }
 
     public DeliveryResource convertToResource(Delivery entity) {

@@ -37,5 +37,3 @@ public class Delivery {
     @JoinColumn(name = "client_id")
     private Client client;
 }
-
-
