@@ -77,7 +77,7 @@ public class ClientController {
         Client client = clientService.getClientById(id);
         return new ResponseEntity<>(convertToResource(client), HttpStatus.OK);
     }
-    @PutMapping("clients/{id}")
+    @PutMapping("clients/{id}/")
     public ResponseEntity<ClientResource> UpdateClientById(@PathVariable Long id, @RequestBody SaveClientResource saveClientResource){
         Client client = clientService.update(id,convertToEntity(saveClientResource));
         return new ResponseEntity<>(convertToResource(client), HttpStatus.OK);
