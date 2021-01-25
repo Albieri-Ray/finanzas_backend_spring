@@ -1,14 +1,10 @@
 package com.finanzas_backend_spring.upon_delivery_system.controllers;
 
 import com.finanzas_backend_spring.auth.resources.Message;
-import com.finanzas_backend_spring.upon_delivery_system.models.Delivery;
 import com.finanzas_backend_spring.upon_delivery_system.models.Voucher;
-import com.finanzas_backend_spring.upon_delivery_system.resources.DeliveryResource;
-import com.finanzas_backend_spring.upon_delivery_system.resources.SaveDeliveryResource;
 import com.finanzas_backend_spring.upon_delivery_system.resources.VoucherResource;
 import com.finanzas_backend_spring.upon_delivery_system.services.VoucherService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -47,11 +43,6 @@ public class VoucherController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-
-
-
 
     @GetMapping("deliveries/{id}/vouchers/")
     public ResponseEntity<Page<VoucherResource>> getAllVouchersByDelivery(@PathVariable Long id, Pageable pageable){
@@ -106,5 +97,4 @@ public class VoucherController {
     public VoucherResource convertToResource(Voucher entity) {
         return mapper.map(entity, VoucherResource.class);
     }
-
 }

@@ -4,8 +4,6 @@ import com.finanzas_backend_spring.upon_delivery_system.models.Delivery;
 import com.finanzas_backend_spring.upon_delivery_system.resources.DeliveryResource;
 import com.finanzas_backend_spring.upon_delivery_system.resources.SaveDeliveryResource;
 import com.finanzas_backend_spring.upon_delivery_system.services.DeliveryService;
-import com.finanzas_backend_spring.user_system.models.Client;
-import com.finanzas_backend_spring.user_system.resources.ClientResource;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
