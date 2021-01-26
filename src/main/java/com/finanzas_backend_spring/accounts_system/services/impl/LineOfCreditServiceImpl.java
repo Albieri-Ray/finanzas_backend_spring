@@ -32,6 +32,7 @@ public class LineOfCreditServiceImpl implements LineOfCreditService {
 
     @Override
     public LineOfCredit save(LineOfCredit lineOfCredit) {
+        lineOfCredit.setRegisterDate(today);
         return lineOfCreditRepository.save(lineOfCredit);
     }
 
