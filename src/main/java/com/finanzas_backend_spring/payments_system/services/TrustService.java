@@ -11,4 +11,5 @@ public interface TrustService {
     Trust save (Trust trust, Long accountId);
     Trust update(Long id, Trust trust);
     void delete(Long id);
+    void deleteAllByAccount (Long accountId);
 }

@@ -67,6 +67,11 @@ public class TrustServiceImpl implements TrustService{
         trustRepository.delete(trust);
     }
 
+    @Override
+    public void deleteAllByAccount(Long accountId) {
+        trustRepository.deleteAllByAccountId(accountId);
+    }
+
     private Boolean verifyIfIsPossible(Account account, BigDecimal priceProduct){
         BigDecimal credit = account.getLineOfCredit().getCredit();
         BigDecimal result =new BigDecimal(0);

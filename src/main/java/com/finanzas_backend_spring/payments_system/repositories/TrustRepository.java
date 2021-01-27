@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TrustRepository extends JpaRepository<Trust,Long> {
     List<Trust> findByAccountId (Long accountId);
+    void deleteAllByAccountId (Long accountId);
 }

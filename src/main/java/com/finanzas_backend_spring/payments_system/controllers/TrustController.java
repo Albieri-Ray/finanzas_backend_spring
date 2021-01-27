@@ -79,6 +79,12 @@ public class TrustController {
         Message message = new Message("Delete successful");
         return new ResponseEntity<>(message,HttpStatus.OK);
     }
+    @DeleteMapping("accounts/{accountId}/trusts")
+    public ResponseEntity<Message> deleteAllByAccount (@PathVariable Long accountId){
+        trustService.deleteAllByAccount(accountId);
+        Message message = new Message("Delete All By Account");
+        return new ResponseEntity<>(message,HttpStatus.OK);
+    }
 
     public TrustResource convertToResource(Trust entity) {
         return mapper.map(entity, TrustResource.class);
