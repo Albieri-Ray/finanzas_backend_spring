@@ -48,7 +48,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
     @Override
     public Receipt save(Receipt receipt, Long accountId) {
-        receipt.setRegisterDate(today);
+        //receipt.setRegisterDate(today);
         receipt.setAccount(accountRepository.findById(accountId).orElseThrow(()->new NotFoundException("account","id", accountId)));
         receipt.setCreditConsumed(calculateCreditConsumed(receipt.getAccount()));
         receipt.setQuantityOfDays(calculateDays(receipt.getAccount(),receipt.getRegisterDate()));
