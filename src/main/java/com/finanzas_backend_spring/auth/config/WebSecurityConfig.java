@@ -16,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.session.SessionManagementFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -60,8 +59,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    CorsFilter corsFilter() {
-        return new CorsFilter();
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .and().addFilterBefore(corsFilter(), SessionManagementFilter.class).csrf().disable().authorizeRequests()
+                .and().cors().and().csrf().disable().authorizeRequests()
                 .antMatchers("/api/register/").permitAll()
                 .antMatchers("/api/login/").permitAll()
                 .antMatchers("/finance-api-docs/**").permitAll()
