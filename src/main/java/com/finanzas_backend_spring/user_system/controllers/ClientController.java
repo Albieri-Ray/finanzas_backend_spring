@@ -83,7 +83,7 @@ public class ClientController {
         return new ResponseEntity<>(convertToResource(client), HttpStatus.OK);
     }
 
-    @GetMapping("clients/{id}/active")
+    @PutMapping("clients/{id}/active")
     public ResponseEntity<ClientResource> changeState(@PathVariable Long id){
         Client existed = clientService.changeState(id);
         return new ResponseEntity<>(convertToResource(existed), HttpStatus.OK);
