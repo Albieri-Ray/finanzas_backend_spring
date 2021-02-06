@@ -74,7 +74,7 @@ public class DeliveryController {
     }
 
     @PutMapping("deliveries/{id}/")
-    public ResponseEntity<DeliveryResource> UpdateDeliveryById(@PathVariable Long id, @RequestBody SaveDeliveryResource saveDeliveryResource){
+    public ResponseEntity<DeliveryResource> updateDeliveryById(@PathVariable Long id, @RequestBody SaveDeliveryResource saveDeliveryResource){
         Delivery delivery = deliveryService.update(id,convertToEntity(saveDeliveryResource));
         return new ResponseEntity<>(convertToResource(delivery), HttpStatus.OK);
     }

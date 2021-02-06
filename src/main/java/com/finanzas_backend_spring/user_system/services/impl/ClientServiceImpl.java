@@ -35,6 +35,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public List<Client> getAllClientsActive(Long userId) {
+        return clientRepository.findByActiveAndUserId(true,userId);
+    }
+
+    @Override
     public Client getClientById(Long id) {
         return clientRepository.findById(id).orElseThrow(()-> new NotFoundException("client","id",id));
     }

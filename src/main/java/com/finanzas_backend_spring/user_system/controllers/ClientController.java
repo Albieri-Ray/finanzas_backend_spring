@@ -89,6 +89,21 @@ public class ClientController {
         return new ResponseEntity<>(convertToResource(existed), HttpStatus.OK);
     }
 
+    @GetMapping("users/{id}/clients/active/")
+    public ResponseEntity<List<ClientResource>> getAllClientsActive(@PathVariable Long id){
+        try
+        {
+            List<Client> clients = clientService.getAllClientsActive(id);
+            if(clients.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            List<ClientResource> clientResources = clients.stream().map(this::convertToResource).collect(Collectors.toList());
+            return new ResponseEntity<>(clientResources,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostConstruct
     public void init(){
         mapper.addMappings(new PropertyMap<Client, ClientResource>() {
