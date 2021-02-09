@@ -1,6 +1,7 @@
 package com.finanzas_backend_spring.accounts_system.services.impl;
 
 import com.finanzas_backend_spring.accounts_system.models.Account;
+import com.finanzas_backend_spring.accounts_system.models.Maintenance;
 import com.finanzas_backend_spring.accounts_system.repositories.AccountRepository;
 import com.finanzas_backend_spring.accounts_system.repositories.LineOfCreditRepository;
 import com.finanzas_backend_spring.accounts_system.repositories.MaintenanceRepository;
@@ -52,5 +53,13 @@ public class AccountServiceImpl implements AccountService {
     public void delete(Long id) {
         Account account = accountRepository.findById(id).orElseThrow(()->new NotFoundException("account","id",id));
         accountRepository.delete(account);
+    }
+
+    @Override
+    public Account changeMaintenance(Long id, Long maintenanceId) {
+        Account account = accountRepository.findById(id).orElseThrow(()->new NotFoundException("account","id",id));
+        Maintenance maintenance = maintenanceRepository.findById(maintenanceId).orElseThrow(()->new NotFoundException("maintenance","id",maintenanceId));
+        account.setMaintenance(maintenance);
+        return accountRepository.save(account);
     }
 }

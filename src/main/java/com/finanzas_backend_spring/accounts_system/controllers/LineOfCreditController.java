@@ -46,7 +46,7 @@ public class LineOfCreditController {
         return new ResponseEntity<>(convertToResource(lineOfCredit),HttpStatus.OK);
     }
 
-    @PostMapping("lineaOfCredit/")
+    @PostMapping("lineaOfCredits/")
     public ResponseEntity<LineOfCreditResource> create(@RequestBody SaveLineOfCreditResource saveLineOfCreditResource)
     {
         LineOfCredit lineOfCredit = lineOfCreditService.save(convertToEntity(saveLineOfCreditResource));

@@ -9,5 +9,5 @@ public interface AccountService {
     Account getAccountById(Long id);
     Account save(Long clientId, Long maintenanceId,Long lineOfCreditId);
     void delete(Long id);
-    //Account update(Long id); Duda
+    Account changeMaintenance (Long id, Long maintenanceId);
 }

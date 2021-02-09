@@ -72,6 +72,12 @@ public class AccountController {
         return new ResponseEntity<>(message,HttpStatus.OK);
     }
 
+    @PutMapping("maintenances/{maintenanceId}/accounts/{id}/")
+    public ResponseEntity<AccountResource> changeMaintenance (@PathVariable Long maintenanceId, @PathVariable Long id){
+        Account account = accountService.changeMaintenance(id, maintenanceId);
+        return new ResponseEntity<>(convertToResource(account), HttpStatus.OK);
+    }
+
     @PostConstruct
     public void init(){
         mapper.addMappings(new PropertyMap<Account, AccountResource>() {
